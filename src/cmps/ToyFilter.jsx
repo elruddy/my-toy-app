@@ -63,7 +63,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 						onChange={(ev) => handleChange(ev)}
 					>
 						<option value="All">All</option>
-						<option value="In stock" selected>
+						<option value="In stock" defaultValue>
 							In Stock
 						</option>
 						<option value="Out of stock">Out of Stock</option>
