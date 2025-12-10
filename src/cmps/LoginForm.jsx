@@ -1,51 +1,71 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { userService } from '../services/user.service.js';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 export function LoginForm({ onLogin, isSignup }) {
 	const [credentials, setCredentials] = useState(
 		userService.getEmptyCredentials()
 	);
 
-	function handleChange({ target }) {
-		const { name: field, value } = target;
-		setCredentials((prevCreds) => ({ ...prevCreds, [field]: value }));
-	}
-
-	function handleSubmit(ev) {
-		ev.preventDefault();
-		onLogin(credentials);
-	}
+	// Dynamic schema (fixes signup/login logic)
+	const validationSchema = Yup.object().shape({
+		username: Yup.string()
+			.min(2, 'Too Short!')
+			.max(50, 'Too Long!')
+			.required('Required'),
+		password: Yup.string()
+			.min(8, 'Password should be at least 8 characters')
+			.required('Password is required'),
+		...(isSignup && {
+			fullname: Yup.string()
+				.min(2, 'Too Short!')
+				.max(50, 'Too Long!')
+				.required('Required'),
+		}),
+	});
 
 	return (
-		<form className="login-form" onSubmit={handleSubmit}>
-			<input
-				type="text"
-				name="username"
-				value={credentials.username}
-				placeholder="Username"
-				onChange={handleChange}
-				required
-			/>
-			<input
-				type="password"
-				name="password"
-				value={credentials.password}
-				placeholder="Password"
-				onChange={handleChange}
-				required
-				autoComplete="off"
-			/>
-			{isSignup && (
-				<input
-					type="text"
-					name="fullname"
-					value={credentials.fullname}
-					placeholder="Full name"
-					onChange={handleChange}
-					required
-				/>
-			)}
-			<button>{isSignup ? 'Signup' : 'Login'}</button>
-		</form>
+		<section className="myForm">
+			<Formik
+				initialValues={{ username: '', password: '', fullname: '' }}
+				validationSchema={validationSchema}
+				onSubmit={(values) => {
+					onLogin(values);
+					setCredentials(values);
+				}}
+			>
+				{({ values, errors, touched }) => {
+					useEffect(() => {
+						setCredentials(values);
+					}, [values]);
+
+					return (
+						<Form>
+							<Field name="username" placeholder="User name" />
+							{errors.username && touched.username && (
+								<div className="error">{errors.username}</div>
+							)}
+
+							<Field name="password" type="password" placeholder="Password" />
+							{errors.password && touched.password && (
+								<div className="error">{errors.password}</div>
+							)}
+
+							{isSignup && (
+								<>
+									<Field name="fullname" placeholder="Full name" />
+									{errors.fullname && touched.fullname && (
+										<div className="error">{errors.fullname}</div>
+									)}
+								</>
+							)}
+
+							<button type="submit">{isSignup ? 'Signup' : 'Login'}</button>
+						</Form>
+					);
+				}}
+			</Formik>
+		</section>
 	);
 }
