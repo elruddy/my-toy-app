@@ -24,6 +24,4 @@ dist-ssr
 *.sw?
 
 
-#keys
-
-MAP_API_KEY
+.env
