@@ -1,3 +1,7 @@
 .add-btn {
-    margin: 0.6em ;
+	margin: 0.6em;
+}
+.google-map {
+	width: 50%;
+	height: 50vh;
 }
