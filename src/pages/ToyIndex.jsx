@@ -72,12 +72,12 @@ export function ToyIndex() {
 	// }
 
 	function addToCart(toy) {
-		console.log(`Adding ${toy.vendor} to Cart`);
+		//console.log(`Adding ${toy.vendor} to Cart`);
 		dispatch({ type: ADD_TOY_TO_CART, toy });
 		showSuccessMsg('Added to Cart');
 	}
 
-	console.log('toys:', toys);
+	//console.log('toys:', toys);
 	return (
 		<div>
 			<h3>Toys App</h3>
@@ -93,6 +93,7 @@ export function ToyIndex() {
 					<ToyList
 						toys={toys}
 						onRemoveToy={onRemoveToy}
+						onToogle
 						addToCart={addToCart}
 					/>
 				) : (

@@ -24,16 +24,30 @@ export function ToyEdit() {
 			.getById(toyId)
 			.then((toy) => setToyToEdit(toy))
 			.catch((err) => {
-				console.log('Had issues in toy edit', err);
+				//console.log('Had issues in toy edit', err);
 				navigate('/toy');
 			});
 	}
 
 	function handleChange({ target }) {
 		let { value, type, name: field } = target;
-		value = type === 'number' ? +value : value;
+		// value = type === 'number' ? +value : value;
+		// if ((value = type === 'checkbox')) value = target.checked;
+		switch (target.type) {
+			case 'number':
+			case 'range':
+				value = +value || '';
+				break;
+
+			case 'checkbox':
+				value = target.checked;
+				break;
+
+			default:
+				break;
+		}
 		setToyToEdit((prevToy) => ({ ...prevToy, [field]: value }));
-		setHasUnsavedChanges(true);
+		//setHasUnsavedChanges(true);
 	}
 
 	function onSaveToy(ev) {
@@ -45,7 +59,7 @@ export function ToyEdit() {
 				navigate('/toy');
 			})
 			.catch((err) => {
-				console.log('Had issues in toy details', err);
+				//console.log('Had issues in toy details', err);
 				showErrorMsg('Had issues in toy details');
 			});
 	}
@@ -76,6 +90,16 @@ export function ToyEdit() {
 						onChange={handleChange}
 					/>
 
+					<label htmlFor="inStock">Is in Stock:</label>
+					<input
+						onChange={handleChange}
+						defaultChecked
+						value={toyToEdit.inStock}
+						type="checkbox"
+						name="inStock"
+						id="inStock"
+					/>
+					{console.log(toyToEdit)}
 					<div>
 						<button>{toyToEdit._id ? 'Save' : 'Add'}</button>
 						<Link to="/toy">Cancel</Link>

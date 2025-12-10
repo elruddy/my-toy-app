@@ -4,15 +4,15 @@ import { SET_USER, SET_USER_SCORE } from '../reducers/user.reducer.js';
 import { store } from '../store.js';
 
 export function login(credentials) {
-	console.log('credentials:', credentials);
+	//console.log('credentials:', credentials);
 	return userService
 		.login(credentials)
 		.then((user) => {
-			console.log('user login:', user);
+			//console.log('user login:', user);
 			store.dispatch({ type: SET_USER, user });
 		})
 		.catch((err) => {
-			console.log('user actions -> Cannot login', err);
+			//console.log('user actions -> Cannot login', err);
 			throw err;
 		});
 }
@@ -24,7 +24,7 @@ export function signup(credentials) {
 			store.dispatch({ type: SET_USER, user });
 		})
 		.catch((err) => {
-			console.log('user actions -> Cannot signup', err);
+			//console.log('user actions -> Cannot signup', err);
 			throw err;
 		});
 }
@@ -36,7 +36,7 @@ export function logout(credentials) {
 			store.dispatch({ type: SET_USER, user: null });
 		})
 		.catch((err) => {
-			console.log('user actions -> Cannot logout', err);
+			//console.log('user actions -> Cannot logout', err);
 		});
 }
 
@@ -48,7 +48,7 @@ export function checkout(diff) {
 			store.dispatch({ type: SET_USER_SCORE, score: newScore });
 		})
 		.catch((err) => {
-			console.log('user actions -> Cannot checkout', err);
+			//console.log('user actions -> Cannot checkout', err);
 			throw err;
 		});
 }

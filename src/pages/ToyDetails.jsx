@@ -21,7 +21,7 @@ export function ToyDetails() {
 			.getById(toyId)
 			.then((toy) => setToy(toy))
 			.catch((err) => {
-				console.log('Had issues in toy details', err);
+				//console.log('Had issues in toy details', err);
 				navigate('/toy');
 			});
 	}
@@ -59,7 +59,6 @@ export function ToyDetails() {
 					<Chat />
 				</PopUp>
 			</section>
-			{console.log(isChatOpen)}
 		</section>
 	);
 }

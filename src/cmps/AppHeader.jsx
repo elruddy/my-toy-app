@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 export function AppHeader() {
 	const dispatch = useDispatch();
 	const user = useSelector((storeState) => storeState.userModule.loggedInUser);
-	// console.log('user:', user)
+	// //console.log('user:', user)
 
 	function onLogout() {
 		logout()

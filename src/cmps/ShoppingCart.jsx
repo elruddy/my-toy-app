@@ -15,7 +15,7 @@ export function ShoppingCart({ isCartShown }) {
 	const user = useSelector((storeState) => storeState.userModule.loggedInUser);
 
 	function removeFromCart(toyId) {
-		console.log(`Todo: remove: ${toyId} from cart`);
+		//console.log(`Todo: remove: ${toyId} from cart`);
 		dispatch({ type: REMOVE_TOY_FROM_CART, toyId });
 	}
 

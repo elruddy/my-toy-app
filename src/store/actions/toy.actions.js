@@ -17,12 +17,12 @@ export function loadToys() {
 	return toyService
 		.query(filterBy)
 		.then((toys) => {
-			console.log(toys);
-			console.log(filterBy);
+			//console.log(toys);
+			//console.log(filterBy);
 			store.dispatch({ type: SET_TOYS, toys });
 		})
 		.catch((err) => {
-			console.log('toy action -> Cannot load toys', err);
+			//console.log('toy action -> Cannot load toys', err);
 			throw err;
 		})
 		.finally(() => {
@@ -37,7 +37,7 @@ export function removeToy(toyId) {
 			store.dispatch({ type: REMOVE_TOY, toyId });
 		})
 		.catch((err) => {
-			console.log('toy action -> Cannot remove toy', err);
+			//console.log('toy action -> Cannot remove toy', err);
 			throw err;
 		});
 }
@@ -51,7 +51,7 @@ export function removeToyOptimistic(toyId) {
 		})
 		.catch((err) => {
 			store.dispatch({ type: TOY_UNDO });
-			console.log('toy action -> Cannot remove toy', err);
+			//console.log('toy action -> Cannot remove toy', err);
 			throw err;
 		});
 }
@@ -61,12 +61,12 @@ export function saveToy(toy) {
 	return toyService
 		.save(toy)
 		.then((savedToy) => {
-			console.log('savedToy:', savedToy);
+			//console.log('savedToy:', savedToy);
 			store.dispatch({ type, toy: savedToy });
 			return savedToy;
 		})
 		.catch((err) => {
-			console.log('toy action -> Cannot save toy', err);
+			//console.log('toy action -> Cannot save toy', err);
 			throw err;
 		});
 }
