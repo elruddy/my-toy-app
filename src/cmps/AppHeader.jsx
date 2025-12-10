@@ -6,6 +6,7 @@ import { logout } from '../store/actions/user.actions.js';
 import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/toy.reducer.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { ShoppingCart } from './ShoppingCart.jsx';
 
 // const { NavLink } = ReactRouterDOM
 // const { useSelector, useDispatch } = ReactRedux
@@ -14,6 +15,9 @@ export function AppHeader() {
 	const dispatch = useDispatch();
 	const user = useSelector((storeState) => storeState.userModule.loggedInUser);
 	// //console.log('user:', user)
+	const isCartShown = useSelector(
+		(storeState) => storeState.toyModule.isCartShown
+	);
 
 	function onLogout() {
 		logout()
@@ -28,6 +32,7 @@ export function AppHeader() {
 	function onToggleCart(ev) {
 		ev.preventDefault();
 		dispatch({ type: TOGGLE_CART_IS_SHOWN });
+		//console.log(isCartShown);
 	}
 
 	return (
@@ -38,6 +43,9 @@ export function AppHeader() {
 					<NavLink to="/">Home</NavLink>
 					<NavLink to="/about">About</NavLink>
 					<NavLink to="/toy">Toys</NavLink>
+					<NavLink to="/stores">Stores</NavLink>
+					<NavLink to="/dashboard">Dashboard</NavLink>
+
 					<a onClick={onToggleCart} href="#">
 						🛒 Cart
 					</a>
@@ -45,9 +53,10 @@ export function AppHeader() {
 			</section>
 			{user ? (
 				<section>
-					<span to={`/user/${user._id}`}>
-						Hello {user.fullname} <span>${user.score.toLocaleString()}</span>
-					</span>
+					<NavLink to={`/user/${user._id}`}>
+						Hello {user.fullname}{' '}
+						<span> your cash is ${user.score.toLocaleString()}</span>
+					</NavLink>
 					<button onClick={onLogout}>Logout</button>
 				</section>
 			) : (
@@ -55,6 +64,7 @@ export function AppHeader() {
 					<LoginSignup />
 				</section>
 			)}
+			<ShoppingCart isCartShown={isCartShown} />
 			<UserMsg />
 		</header>
 	);

@@ -34,7 +34,7 @@ export function UserDetails() {
 	return (
 		<section className="user-details">
 			<h1>Fullname: {user.fullname}</h1>
-			<h5>Score: {user.score}</h5>
+			<h4>Cash to spent: {user.score}</h4>
 			{isMyProfile && (
 				<section>
 					<h2>My Stuff!</h2>

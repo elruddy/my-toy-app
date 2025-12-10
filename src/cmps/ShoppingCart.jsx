@@ -6,6 +6,7 @@ import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js';
 import { userService } from '../services/user.service.js';
 import { checkout } from '../store/actions/user.actions.js';
 import { REMOVE_TOY_FROM_CART } from '../store/reducers/toy.reducer.js';
+import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/toy.reducer.js';
 
 export function ShoppingCart({ isCartShown }) {
 	const dispatch = useDispatch();
@@ -40,23 +41,30 @@ export function ShoppingCart({ isCartShown }) {
 	return (
 		<section className="cart">
 			<h5>Your Cart</h5>
-			<ul>
+			<ul className="clean-list">
 				{shoppingCart.map((toy, idx) => (
 					<li key={idx}>
+						{toy.name} | ${toy.price}
 						<button
+							className="remove-btn"
 							onClick={() => {
 								removeFromCart(toy._id);
 							}}
 						>
 							x
 						</button>
-						{toy.vendor} | ${toy.price}
 					</li>
 				))}
 			</ul>
 			<p>Total: ${total} </p>
 			<button disabled={!user || !total} onClick={onCheckout}>
 				Checkout
+			</button>
+			<button
+				className="remove-btn"
+				onClick={() => dispatch({ type: TOGGLE_CART_IS_SHOWN })}
+			>
+				x
 			</button>
 		</section>
 	);

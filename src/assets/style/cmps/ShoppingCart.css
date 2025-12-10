@@ -9,3 +9,6 @@
 .cart li button {
 	margin: 5px;
 }
+.remove-btn {
+	background: none;
+}
