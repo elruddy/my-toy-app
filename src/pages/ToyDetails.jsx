@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { toyService } from '../services/toy.service.js';
+import { PopUp } from '../cmps/PopUp.jsx';
+import { Chat } from '../cmps/Chat.jsx';
 import { Link, useParams } from 'react-router-dom';
 
 // const { useEffect, useState } = React
@@ -7,6 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 
 export function ToyDetails() {
 	const [toy, setToy] = useState(null);
+	const [isChatOpen, setIsChatOpen] = useState(false);
 	const { toyId } = useParams();
 
 	useEffect(() => {
@@ -39,33 +42,24 @@ export function ToyDetails() {
 			<p>
 				<Link to="/toy/nJ5L4">Next Toy</Link>
 			</p>
+			{!isChatOpen && (
+				<button onClick={() => setIsChatOpen(true)} className="chat-button">
+					{' '}
+					Open chat
+				</button>
+			)}
+			<section>
+				<PopUp
+					header={<h2>Your chat about {toy.name}</h2>}
+					footer={<footer>Toy price:{toy.price}</footer>}
+					onClose={() => setIsChatOpen(false)}
+					isOpen={isChatOpen}
+				>
+					{' '}
+					<Chat />
+				</PopUp>
+			</section>
+			{console.log(isChatOpen)}
 		</section>
 	);
 }
-
-/*
-
-<PopUp header={<header></header>} footer={<footer ></footer>}>
-    <Chat />
-</PopUp>
-
-
-function PopUp({ children, header, footer, isOpen }) {
-
-
-    return (
-        <section>
-            <header>{header}</header>
-            <main>
-                {children}
-            </main>
-            <footer>{footer}</footer>
-        </section>
-    )
-}
-
-function Chat() {
-
-
-}
-*/

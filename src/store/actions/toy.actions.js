@@ -17,6 +17,8 @@ export function loadToys() {
 	return toyService
 		.query(filterBy)
 		.then((toys) => {
+			console.log(toys);
+			console.log(filterBy);
 			store.dispatch({ type: SET_TOYS, toys });
 		})
 		.catch((err) => {

@@ -63,7 +63,7 @@ function getRandomToy() {
 }
 
 function getDefaultFilter() {
-	return { txt: '', maxPrice: '', inStock: '' };
+	return { txt: '', maxPrice: '', inStock: 'All' };
 }
 
 // Toy data model

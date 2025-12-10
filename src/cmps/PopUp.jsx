@@ -5,6 +5,8 @@ export function PopUp({
 	isOpen = false,
 	onClose = () => {},
 }) {
+	if (!isOpen) return null;
+
 	return (
 		<div onClick={onClose} className="popup-backdrop">
 			<div onClick={(ev) => ev.stopPropagation()} className="popup-container">
