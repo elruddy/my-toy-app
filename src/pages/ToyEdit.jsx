@@ -6,14 +6,24 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 // import { useOnlineStatus } from "../hooks/useOnlineStatusSyncStore.js"
 import { useOnlineStatus } from '../hooks/useOnlineStatus.js';
 import { useConfirmTabClose } from '../hooks/useConfirmTabClose.js';
+import { LabelsInput } from '../cmps/LabelsInput.jsx';
 
 export function ToyEdit() {
 	const navigate = useNavigate();
 	const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy());
+
 	const { toyId } = useParams();
 
 	const isOnline = useOnlineStatus();
 	const setHasUnsavedChanges = useConfirmTabClose();
+
+	const handleLabelsChange = (labels) => {
+		//console.log('selected labels:', labels);
+
+		setToyToEdit((prev) => ({ ...prev, labels }));
+	};
+
+	//console.log('toy model:', toyToEdit);
 
 	useEffect(() => {
 		if (toyId) loadToy();
@@ -79,6 +89,10 @@ export function ToyEdit() {
 						placeholder="Enter toy name..."
 						value={toyToEdit.name}
 						onChange={handleChange}
+					/>
+					<LabelsInput
+						onChangeLabels={handleLabelsChange}
+						initialLabels={toyToEdit.labels}
 					/>
 					<label htmlFor="price">Price : </label>
 					<input

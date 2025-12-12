@@ -8,10 +8,12 @@ import { HomePage } from './pages/HomePage.jsx';
 import { AboutUs } from './pages/AboutUs.jsx';
 import { ToyIndex } from './pages/ToyIndex.jsx';
 import { StoreMap } from './cmps/StoreMap.jsx';
+import { Dashboard } from './cmps/Dashboard.jsx';
 import { store } from './store/store.js';
 import { ToyEdit } from './pages/ToyEdit.jsx';
 import { ToyDetails } from './pages/ToyDetails.jsx';
 import { UserDetails } from './pages/UserDetails.jsx';
+
 import { Provider } from 'react-redux';
 
 export default function App() {
@@ -27,6 +29,7 @@ export default function App() {
 								<Route path="map" element={<StoreMap />} />
 							</Route>
 							<Route element={<ToyIndex />} path="/toy" />
+							<Route element={<Dashboard />} path="/dashboard" />
 							<Route element={<ToyEdit />} path="/toy/edit" />
 							<Route element={<ToyEdit />} path="/toy/edit/:toyId" />
 							<Route element={<ToyDetails />} path="/toy/:toyId" />
