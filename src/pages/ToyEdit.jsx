@@ -19,7 +19,6 @@ export function ToyEdit() {
 
 	const handleLabelsChange = (labels) => {
 		//console.log('selected labels:', labels);
-
 		setToyToEdit((prev) => ({ ...prev, labels }));
 	};
 

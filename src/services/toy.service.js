@@ -18,28 +18,31 @@ function query(filterBy = {}) {
 	return storageService.query(STORAGE_KEY).then((toys) => {
 		if (filterBy.txt) {
 			const regExp = new RegExp(filterBy.txt, 'i');
-			toys = toys.filter((toy) => regExp.test(toy.txt));
+			toys = toys.filter((toy) => regExp.test(toy.name));
 		}
 
 		if (filterBy.maxPrice) {
-			toys = toys.filter((toy) => toy.maxPrice >= filterBy.maxPrice);
+			toys = toys.filter((toy) => toy.price <= filterBy.maxPrice);
 		}
 
-		if (filterBy.inStock !== 'All') {
+		if (filterBy.inStock && filterBy.inStock !== 'All') {
 			toys = toys.filter((toy) =>
 				filterBy.inStock === 'In stock' ? toy.inStock : !toy.inStock
 			);
 		}
 
 		if (filterBy.sort) {
-			if (filterBy.sort === 'txt') {
-				toys = toys.sort((a, b) => a.txt.localeCompare(b.txt));
+			if (filterBy.sort === 'name') {
+				toys = toys.sort((a, b) => a.name.localeCompare(b.name));
 			} else if (filterBy.sort === 'createdAt') {
-				toys = toys.sort((a, b) => a.createdAt - b.createdAt);
+				toys = toys.sort(
+					(a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+				);
 			} else if (filterBy.sort === 'price') {
 				toys = toys.sort((a, b) => a.price - b.price);
 			}
 		}
+
 		return toys;
 	});
 }

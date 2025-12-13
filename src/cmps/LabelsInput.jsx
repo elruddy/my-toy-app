@@ -44,7 +44,7 @@ const toyLabels = [
 // 			: theme.typography.fontWeightRegular,
 // 	};
 // }
-export function LabelsInput({ initialLabels = [], onChangeLabels }) {
+export function LabelsInput({ initialLabels, onChangeLabels }) {
 	//const theme = useTheme();
 	const [toyLabel, setToyLabel] = useState(initialLabels);
 

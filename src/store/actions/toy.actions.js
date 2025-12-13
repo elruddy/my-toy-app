@@ -11,8 +11,8 @@ import {
 } from '../reducers/toy.reducer.js';
 import { store } from '../store.js';
 
-export function loadToys() {
-	const filterBy = store.getState().toyModule.filterBy;
+export function loadToys(filterBy = null) {
+	//const filterBy = store.getState().toyModule.filterBy;
 	store.dispatch({ type: SET_IS_LOADING, isLoading: true });
 	return toyService
 		.query(filterBy)

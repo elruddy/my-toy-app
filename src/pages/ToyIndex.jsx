@@ -28,7 +28,7 @@ export function ToyIndex() {
 	const isLoading = useSelector((storeState) => storeState.toyModule.isLoading);
 
 	useEffect(() => {
-		loadToys().catch((err) => {
+		loadToys(filterBy).catch((err) => {
 			showErrorMsg('Cannot load toys!');
 		});
 	}, [filterBy]);
