@@ -1,8 +1,17 @@
 import { storageService } from './async-storage.service.js';
 import { utilService } from './util.service.js';
-import { userService } from './user.service.remote.js';
+import { userService } from './user.service.js';
+import { httpService } from './http.service.js';
 
-const STORAGE_KEY = 'toyDB';
+// import Axios from 'axios'
+// const axios = Axios.create({
+//     withCredentials: true
+// })
+
+// const BASE_URL = '/api/toy/'
+// const BASE_URL = '//localhost:3030/api/toy/'
+
+const BASE_URL = 'toy/';
 
 export const toyService = {
 	query,
@@ -10,59 +19,26 @@ export const toyService = {
 	save,
 	remove,
 	getEmptyToy,
-	getRandomToy,
 	getDefaultFilter,
+	getRandomToy,
 };
 
 function query(filterBy = {}) {
-	return storageService.query(STORAGE_KEY).then((toys) => {
-		if (filterBy.txt) {
-			const regExp = new RegExp(filterBy.txt, 'i');
-			toys = toys.filter((toy) => regExp.test(toy.name));
-		}
-
-		if (filterBy.maxPrice) {
-			toys = toys.filter((toy) => toy.price <= filterBy.maxPrice);
-		}
-
-		if (filterBy.inStock && filterBy.inStock !== 'All') {
-			toys = toys.filter((toy) =>
-				filterBy.inStock === 'In stock' ? toy.inStock : !toy.inStock
-			);
-		}
-
-		if (filterBy.sort) {
-			if (filterBy.sort === 'name') {
-				toys = toys.sort((a, b) => a.name.localeCompare(b.name));
-			} else if (filterBy.sort === 'createdAt') {
-				toys = toys.sort(
-					(a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-				);
-			} else if (filterBy.sort === 'price') {
-				toys = toys.sort((a, b) => a.price - b.price);
-			}
-		}
-
-		return toys;
-	});
+	return httpService.get(BASE_URL, filterBy);
 }
 
 function getById(toyId) {
-	return storageService.get(STORAGE_KEY, toyId);
+	return httpService.get(BASE_URL + toyId);
 }
-
 function remove(toyId) {
-	// return Promise.reject('Not now!')
-	return storageService.remove(STORAGE_KEY, toyId);
+	return httpService.delete(BASE_URL + toyId);
 }
 
 function save(toy) {
 	if (toy._id) {
-		return storageService.put(STORAGE_KEY, toy);
+		return httpService.put(BASE_URL + toy._id, toy);
 	} else {
-		// when switching to backend - remove the next line
-		toy.owner = userService.getLoggedinUser();
-		return storageService.post(STORAGE_KEY, toy);
+		return httpService.post(BASE_URL, toy);
 	}
 }
 
@@ -70,7 +46,7 @@ function getEmptyToy() {
 	return {
 		name: '',
 		imgUrl:
-			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
+			'https://www.crossword.in/cdn/shop/products/crosswordonline-toys-games-default-title-mirada-55cm-jumbo-teddy-bear-soft-toy-beige-40250340016345.jpg?v=1746619255',
 		price: '',
 		labels: [],
 		createdAt: Date().now,
@@ -80,16 +56,24 @@ function getEmptyToy() {
 
 function getRandomToy() {
 	return {
-		name: '',
-		imgUrl:
-			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
-		price: '',
-		labels: [],
-		createdAt: Date().now,
-		inStock: true,
+		vendor: 'Toy-' + (Date.now() % 1000),
+		price: utilService.getRandomIntInclusive(1000, 9000),
+		speed: utilService.getRandomIntInclusive(90, 200),
 	};
 }
 
 function getDefaultFilter() {
-	return { txt: '', maxPrice: '', inStock: 'All', sort: '' };
+	return { txt: '', maxPrice: '', inStock: 'All' };
 }
+
+// Toy data model
+// const toy = {
+// _id: 't101',
+// name: 'Talking Doll',
+// imgUrl: 'hardcoded-url-for-now'
+// ,
+// price: 123,
+// labels: ['Doll', 'Battery Powered', 'Baby'],
+// createdAt: 1631031801011,
+// inStock: true,
+// }

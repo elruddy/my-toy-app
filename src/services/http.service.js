@@ -1,7 +1,11 @@
 import Axios from 'axios';
 
-const BASE_URL =
-	process.env.NODE_ENV === 'production' ? '/api/' : '//localhost:3030/api/';
+// const BASE_URL =
+// 	process.env.NODE_ENV === 'production'
+// 		? '/api/'
+// 		: 'http://localhost:3030/api/';
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 var axios = Axios.create({
 	withCredentials: true,
@@ -23,7 +27,7 @@ export const httpService = {
 };
 
 async function ajax(endpoint, method = 'GET', data = null) {
-	// //console.log(`${BASE_URL}${endpoint}`)
+	console.log(`${BASE_URL}${endpoint}`);
 	try {
 		const res = await axios({
 			url: `${BASE_URL}${endpoint}`,
