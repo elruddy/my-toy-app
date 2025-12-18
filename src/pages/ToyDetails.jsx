@@ -30,7 +30,7 @@ export function ToyDetails() {
 		<section className="toy-details">
 			<h1>Toy name : {toy.name}</h1>
 			<h5>Price: ${toy.price}</h5>
-			<h5>Labels: {toy.labels.toString()}</h5>
+			<h5>Labels: {toy.labels?.toString()}</h5>
 			<img src={toy.imgUrl} style={{ width: '300px', height: 'auto' }} />{' '}
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi voluptas

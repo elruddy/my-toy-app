@@ -9,7 +9,7 @@ import { httpService } from './http.service.js';
 // })
 
 // const BASE_URL = '/api/toy/'
-// const BASE_URL = '//localhost:3030/api/toy/'
+//const BASE_URL = '//localhost:3030/api/toy/';
 
 const BASE_URL = 'toy/';
 
@@ -46,7 +46,7 @@ function getEmptyToy() {
 	return {
 		name: '',
 		imgUrl:
-			'https://www.crossword.in/cdn/shop/products/crosswordonline-toys-games-default-title-mirada-55cm-jumbo-teddy-bear-soft-toy-beige-40250340016345.jpg?v=1746619255',
+			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
 		price: '',
 		labels: [],
 		createdAt: Date().now,
@@ -56,11 +56,11 @@ function getEmptyToy() {
 
 function getRandomToy() {
 	return {
-		name: 'Toy-' + (Date.now() % 1000),
+		name: '',
 		imgUrl:
-			'https://www.crossword.in/cdn/shop/products/crosswordonline-toys-games-default-title-mirada-55cm-jumbo-teddy-bear-soft-toy-beige-40250340016345.jpg?v=1746619255',
-		price: utilService.getRandomIntInclusive(1000, 9000),
-		labels: ['Age 3+', 'Age 6+'],
+			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
+		price: '',
+		labels: [],
 		createdAt: Date().now,
 		inStock: true,
 	};
