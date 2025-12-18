@@ -56,9 +56,13 @@ function getEmptyToy() {
 
 function getRandomToy() {
 	return {
-		vendor: 'Toy-' + (Date.now() % 1000),
+		name: 'Toy-' + (Date.now() % 1000),
+		imgUrl:
+			'https://www.crossword.in/cdn/shop/products/crosswordonline-toys-games-default-title-mirada-55cm-jumbo-teddy-bear-soft-toy-beige-40250340016345.jpg?v=1746619255',
 		price: utilService.getRandomIntInclusive(1000, 9000),
-		speed: utilService.getRandomIntInclusive(90, 200),
+		labels: ['Age 3+', 'Age 6+'],
+		createdAt: Date().now,
+		inStock: true,
 	};
 }
 
