@@ -1,17 +1,9 @@
-import { storageService } from './async-storage.service.js';
+// import { storageService } from './async-storage.service.js'
+import { httpService } from './http.service.js';
 import { utilService } from './util.service.js';
 import { userService } from './user.service.js';
-import { httpService } from './http.service.js';
 
-// import Axios from 'axios'
-// const axios = Axios.create({
-//     withCredentials: true
-// })
-
-// const BASE_URL = '/api/toy/'
-//const BASE_URL = '//localhost:3030/api/toy/';
-
-const BASE_URL = 'toy/';
+const STORAGE_KEY = 'toy';
 
 export const toyService = {
 	query,
@@ -19,27 +11,61 @@ export const toyService = {
 	save,
 	remove,
 	getEmptyToy,
+	addToyMsg,
 	getDefaultFilter,
 	getRandomToy,
 };
+window.cs = toyService;
 
-function query(filterBy = {}) {
-	return httpService.get(BASE_URL, filterBy);
+async function query(filterBy = { txt: '', maxPrice: '', inStock: 'All' }) {
+	return httpService.get(STORAGE_KEY, filterBy);
+
+	// var cars = await storageService.query(STORAGE_KEY)
+	// if (filterBy.txt) {
+	//     const regex = new RegExp(filterBy.txt, 'i')
+	//     cars = cars.filter(car => regex.test(car.vendor) || regex.test(car.description))
+	// }
+	// if (filterBy.price) {
+	//     cars = cars.filter(car => car.price <= filterBy.price)
+	// }
+	// return cars
 }
-
 function getById(toyId) {
-	return httpService.get(BASE_URL + toyId);
-}
-function remove(toyId) {
-	return httpService.delete(BASE_URL + toyId);
+	// return storageService.get(STORAGE_KEY, carId)
+	return httpService.get(`toy/${toyId}`);
 }
 
-function save(toy) {
+async function remove(toyId) {
+	// await storageService.remove(STORAGE_KEY, carId)
+	return httpService.delete(`toy/${toyId}`);
+}
+async function save(toy) {
+	var savedToy;
 	if (toy._id) {
-		return httpService.put(BASE_URL + toy._id, toy);
+		// savedCar = await storageService.put(STORAGE_KEY, car)
+		savedToy = await httpService.put(`toy/${toy._id}`, toy);
 	} else {
-		return httpService.post(BASE_URL, toy);
+		// Later, owner is set by the backend
+		// car.owner = userService.getLoggedinUser()
+		// savedCar = await storageService.post(STORAGE_KEY, car)
+		savedToy = await httpService.post('toy', toy);
 	}
+	return savedToy;
+}
+
+async function addToyMsg(toyId, txt) {
+	// const car = await getById(carId)
+	// if (!car.msgs) car.msgs = []
+
+	// const msg = {
+	//     id: utilService.makeId(),
+	//     by: userService.getLoggedinUser(),
+	//     txt
+	// }
+	// car.msgs.push(msg)
+	// await storageService.put(STORAGE_KEY, car)
+	const savedMsg = await httpService.post(`toy/${toyId}/msg`, { txt });
+	return savedMsg;
 }
 
 function getEmptyToy() {
@@ -69,15 +95,3 @@ function getRandomToy() {
 function getDefaultFilter() {
 	return { txt: '', maxPrice: '', inStock: 'All' };
 }
-
-// Toy data model
-// const toy = {
-// _id: 't101',
-// name: 'Talking Doll',
-// imgUrl: 'hardcoded-url-for-now'
-// ,
-// price: 123,
-// labels: ['Doll', 'Battery Powered', 'Baby'],
-// createdAt: 1631031801011,
-// inStock: true,
-// }

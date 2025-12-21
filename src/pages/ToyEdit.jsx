@@ -68,7 +68,7 @@ export function ToyEdit() {
 				navigate('/toy');
 			})
 			.catch((err) => {
-				//console.log('Had issues in toy details', err);
+				console.log('Had issues in toy details', err);
 				showErrorMsg('Had issues in toy details');
 			});
 	}
