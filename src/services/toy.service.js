@@ -11,7 +11,8 @@ export const toyService = {
 	save,
 	remove,
 	getEmptyToy,
-	addToyMsg,
+	addMsg,
+	removeMsg,
 	getDefaultFilter,
 	getRandomToy,
 };
@@ -53,19 +54,12 @@ async function save(toy) {
 	return savedToy;
 }
 
-async function addToyMsg(toyId, txt) {
-	// const car = await getById(carId)
-	// if (!car.msgs) car.msgs = []
+async function addMsg(toyId, msg) {
+	return httpService.post(`toy/${toyId}/msg`, msg);
+}
 
-	// const msg = {
-	//     id: utilService.makeId(),
-	//     by: userService.getLoggedinUser(),
-	//     txt
-	// }
-	// car.msgs.push(msg)
-	// await storageService.put(STORAGE_KEY, car)
-	const savedMsg = await httpService.post(`toy/${toyId}/msg`, { txt });
-	return savedMsg;
+async function removeMsg(toyId, msgId) {
+	return httpService.delete(`toy/${toyId}/msg/${msgId}`);
 }
 
 function getEmptyToy() {
@@ -77,6 +71,7 @@ function getEmptyToy() {
 		labels: [],
 		createdAt: Date().now,
 		inStock: true,
+		msgs: [],
 	};
 }
 
@@ -89,6 +84,7 @@ function getRandomToy() {
 		labels: [],
 		createdAt: Date().now,
 		inStock: true,
+		msgs: [],
 	};
 }
 

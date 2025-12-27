@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { toyService } from '../services/toy.service.js';
+import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service';
 import { PopUp } from '../cmps/PopUp.jsx';
 import { Chat } from '../cmps/Chat.jsx';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
@@ -10,7 +12,10 @@ import { Link, useParams } from 'react-router-dom';
 export function ToyDetails() {
 	const [toy, setToy] = useState(null);
 	const [isChatOpen, setIsChatOpen] = useState(false);
+	const [msg, setMsg] = useState({ txt: '' });
+
 	const { toyId } = useParams();
+	const user = useSelector((storeState) => storeState.userModule.loggedInUser);
 
 	useEffect(() => {
 		if (toyId) loadToy();
@@ -25,6 +30,46 @@ export function ToyDetails() {
 				navigate('/toy');
 			});
 	}
+
+	async function onSaveMsg(ev) {
+		ev.preventDefault();
+		try {
+			const savedMsg = await toyService.addMsg(toy._id, msg);
+			setToy((prevToy) => ({
+				...prevToy,
+				msgs: [...(prevToy.msgs || []), savedMsg],
+			}));
+			setMsg({ txt: '' });
+			showSuccessMsg('Message saved!');
+		} catch (error) {
+			showErrorMsg('Cannot save message');
+		}
+	}
+
+	async function onRemoveMsg(msgId) {
+		try {
+			await toyService.removeMsg(toy._id, msgId);
+			setToy((prevToy) => ({
+				...prevToy,
+				msgs: prevToy.msgs.filter((msg) => msg.id !== msgId),
+			}));
+
+			showSuccessMsg('Message removed!');
+		} catch (error) {
+			showErrorMsg('Cannot remove message');
+		}
+	}
+
+	function handleMsgChange(ev) {
+		const field = ev.target.name;
+		const value = ev.target.value;
+		setMsg((msg) => ({ ...msg, [field]: value }));
+	}
+
+	const { txt } = msg;
+
+	console.log(msg);
+
 	if (!toy) return <div>Loading...</div>;
 	return (
 		<section className="toy-details">
@@ -38,6 +83,36 @@ export function ToyDetails() {
 				perferendis tempora aspernatur sit, explicabo veritatis corrupti
 				perspiciatis repellat, enim quibusdam!
 			</p>
+			{user && (
+				<div className="msg-container">
+					<h1>Messages</h1>
+					<form className="login-form" onSubmit={onSaveMsg}>
+						<input
+							type="text"
+							name="txt"
+							value={txt}
+							placeholder="Enter Your Message"
+							onChange={handleMsgChange}
+							required
+							autoFocus
+						/>
+						<button>Send</button>
+					</form>
+					<div>
+						<ul className="clean-list">
+							{toy.msgs &&
+								toy.msgs.map((msg) => (
+									<li key={msg.id}>
+										By: {msg.by ? msg.by.fullname : 'Unknown User'} - {msg.txt}
+										<button type="button" onClick={() => onRemoveMsg(msg.id)}>
+											✖️
+										</button>
+									</li>
+								))}
+						</ul>
+					</div>
+				</div>
+			)}
 			<Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;
 			<Link to={`/toy`}>Back</Link>
 			<p>

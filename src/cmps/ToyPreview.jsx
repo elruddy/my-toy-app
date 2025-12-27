@@ -7,7 +7,7 @@ export function ToyPreview({ toy }) {
 			<h2>{toy.name}</h2>
 			<img src={`${toy.imgUrl}`}></img>
 			<p>
-				Price: <span>${toy.price.toLocaleString()}</span>
+				Price: <span>${toy.price?.toLocaleString()}</span>
 			</p>
 			{/* <p>
 				Labels: <span>{toy.labels.toLocaleString()} km/h</span>

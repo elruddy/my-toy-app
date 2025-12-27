@@ -8,9 +8,8 @@ import { httpService } from './http.service.js';
 //     withCredentials: true
 // })
 
-// const BASE_URL = '/api/toy/'
+// const BASE_URL = '/api/toy/';
 //const BASE_URL = '//localhost:3030/api/toy/';
-
 const BASE_URL = 'toy/';
 
 export const toyService = {
@@ -21,6 +20,8 @@ export const toyService = {
 	getEmptyToy,
 	getDefaultFilter,
 	getRandomToy,
+	addMsg,
+	removeMsg,
 };
 
 function query(filterBy = {}) {
@@ -53,7 +54,13 @@ function getEmptyToy() {
 		inStock: true,
 	};
 }
+async function addMsg(toyId, msg) {
+	return httpService.post(BASE_URL + `${toyId}/msg`, msg);
+}
 
+async function removeMsg(toyId, msgId) {
+	return httpService.delete(BASE_URL + `${toyId}/msg/${msgId}`);
+}
 function getRandomToy() {
 	return {
 		name: '',

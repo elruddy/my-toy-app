@@ -106,8 +106,8 @@ export function ToyEdit() {
 					<label htmlFor="inStock">Is in Stock:</label>
 					<input
 						onChange={handleChange}
-						defaultChecked
 						value={toyToEdit.inStock}
+						checked={toyToEdit.inStock}
 						type="checkbox"
 						name="inStock"
 						id="inStock"
