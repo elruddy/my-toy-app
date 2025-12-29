@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { userService } from '../services/user.service.js';
+import { userService } from '../services/user';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 

@@ -1,4 +1,4 @@
-import { storageService } from './async-storage.service.js';
+import { storageService } from '../async-storage.service.js';
 
 const STORAGE_KEY = 'userDB';
 const STORAGE_KEY_LOGGEDIN = 'loggedinUser';
@@ -10,8 +10,17 @@ export const userService = {
 	getById,
 	getLoggedinUser,
 	updateScore,
-	getEmptyCredentials,
+	getUsers,
 };
+
+async function getUsers() {
+	const users = await storageService.query(STORAGE_KEY);
+	console.log('after async', users);
+	return users.map((user) => {
+		delete user.password;
+		return user;
+	});
+}
 
 function getById(userId) {
 	return storageService.get(STORAGE_KEY, userId);
@@ -63,14 +72,6 @@ function _setLoggedinUser(user) {
 	};
 	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave));
 	return userToSave;
-}
-
-function getEmptyCredentials() {
-	return {
-		username: '',
-		password: '',
-		fullname: '',
-	};
 }
 
 // Test Data

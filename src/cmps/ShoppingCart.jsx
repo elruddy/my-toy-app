@@ -3,7 +3,7 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js';
-import { userService } from '../services/user.service.js';
+import { userService } from '../services/user';
 import { checkout } from '../store/actions/user.actions.js';
 import { REMOVE_TOY_FROM_CART } from '../store/reducers/toy.reducer.js';
 import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/toy.reducer.js';

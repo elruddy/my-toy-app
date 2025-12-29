@@ -1,7 +1,7 @@
 // import { storageService } from './async-storage.service.js'
-import { httpService } from './http.service.js';
-import { utilService } from './util.service.js';
-import { userService } from './user.service.js';
+import { httpService } from '../http.service.js';
+import { utilService } from '../util.service.js';
+import { userService } from '../../services/user';
 
 const STORAGE_KEY = 'toy';
 
@@ -10,11 +10,8 @@ export const toyService = {
 	getById,
 	save,
 	remove,
-	getEmptyToy,
 	addMsg,
 	removeMsg,
-	getDefaultFilter,
-	getRandomToy,
 };
 window.cs = toyService;
 
@@ -60,34 +57,4 @@ async function addMsg(toyId, msg) {
 
 async function removeMsg(toyId, msgId) {
 	return httpService.delete(`toy/${toyId}/msg/${msgId}`);
-}
-
-function getEmptyToy() {
-	return {
-		name: '',
-		imgUrl:
-			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
-		price: '',
-		labels: [],
-		createdAt: Date().now,
-		inStock: true,
-		msgs: [],
-	};
-}
-
-function getRandomToy() {
-	return {
-		name: '',
-		imgUrl:
-			'https://www.herdy.co.uk/media/catalog/product/cache/a83355e9e934376662af35efc6557543/s/h/sheppy_soft_toy_front.jpg',
-		price: '',
-		labels: [],
-		createdAt: Date().now,
-		inStock: true,
-		msgs: [],
-	};
-}
-
-function getDefaultFilter() {
-	return { txt: '', maxPrice: '', inStock: 'All' };
 }

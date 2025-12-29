@@ -1,4 +1,4 @@
-import { toyService } from '../../services/toy.service.js';
+import { toyService } from '../../services/toy';
 import { showSuccessMsg } from '../../services/event-bus.service.js';
 import {
 	ADD_TOY,

@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
-import { userService } from '../services/user.service.js';
+import { userService } from '../services/user';
 import { login, signup } from '../store/actions/user.actions.js';
 import { LoginForm } from './LoginForm.jsx';
 
 export function LoginSignup() {
 	const [isSignup, setIsSignUp] = useState(false);
+	const [users, setUsers] = useState([]);
+
+	useEffect(() => {
+		loadUsers();
+	}, []);
+
+	async function loadUsers() {
+		const users = await userService.getUsers();
+		setUsers(users);
+	}
 
 	function onLogin(credentials) {
 		isSignup ? _signup(credentials) : _login(credentials);

@@ -3,7 +3,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadToys } from '../store/actions/toy.actions.js';
 import { useEffect, useState } from 'react';
-import { toyService } from '../services/toy.service.js';
+import { toyService } from '../services/toy';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

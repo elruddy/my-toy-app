@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { userService } from '../services/user.service.js';
+import { userService } from '../services/user';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 // const { useEffect, useState } = React

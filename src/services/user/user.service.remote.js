@@ -1,5 +1,5 @@
-import { storageService } from './async-storage.service.js';
-import { httpService } from './http.service.js';
+import { storageService } from '../async-storage.service.js';
+import { httpService } from '../http.service.js';
 
 const STORAGE_KEY_LOGGEDIN_USER = 'loggedinUser';
 
@@ -9,17 +9,16 @@ export const userService = {
 	signup,
 	getLoggedinUser,
 	saveLocalUser,
-	query,
+	getUsers,
 	getById,
 	remove,
 	update,
 	changeScore,
-	getEmptyCredentials,
 };
 
 window.userService = userService;
 
-function query() {
+function getUsers() {
 	// return storageService.query('user')
 	return httpService.get(`user`);
 }
@@ -86,14 +85,6 @@ function saveLocalUser(user) {
 
 function getLoggedinUser() {
 	return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER));
-}
-
-function getEmptyCredentials() {
-	return {
-		username: '',
-		password: '',
-		fullname: '',
-	};
 }
 
 // ;(async ()=>{

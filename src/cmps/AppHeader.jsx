@@ -1,6 +1,6 @@
 import { UserMsg } from './UserMsg.jsx';
 import { LoginSignup } from './LoginSignup.jsx';
-import { userService } from '../services/user.service.js';
+import { userService } from '../services/user';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
 import { logout } from '../store/actions/user.actions.js';
 import { TOGGLE_CART_IS_SHOWN } from '../store/reducers/toy.reducer.js';

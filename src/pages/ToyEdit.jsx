@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { toyService } from '../services/toy.service.js';
+import { toyService } from '../services/toy';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service.js';
 import { saveToy } from '../store/actions/toy.actions.js';
 import { Link, useNavigate, useParams } from 'react-router-dom';

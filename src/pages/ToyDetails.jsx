@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
-import { toyService } from '../services/toy.service.js';
+import { toyService } from '../services/toy';
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service';
 import { PopUp } from '../cmps/PopUp.jsx';
 import { Chat } from '../cmps/Chat.jsx';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { ReviewEdit } from '../cmps/ReviewEdit.jsx';
+import { ToyReview } from '../cmps/ToyReview.jsx';
+import {
+	loadReviews,
+	addReview,
+	removeReview,
+} from '../store/actions/review.actions.js';
 // const { useEffect, useState } = React
 // const { Link, useParams } = ReactRouterDOM
 
@@ -13,12 +19,17 @@ export function ToyDetails() {
 	const [toy, setToy] = useState(null);
 	const [isChatOpen, setIsChatOpen] = useState(false);
 	const [msg, setMsg] = useState({ txt: '' });
+	const [review, setReview] = useState({ txt: '' });
 
 	const { toyId } = useParams();
+
 	const user = useSelector((storeState) => storeState.userModule.loggedInUser);
+	const reviewsState = useSelector((state) => state.reviewModule.reviews);
+	const reviews = Array.isArray(reviewsState) ? reviewsState : [];
 
 	useEffect(() => {
 		if (toyId) loadToy();
+		loadReviews({ aboutToyId: toyId });
 	}, [toyId]);
 
 	function loadToy() {
@@ -66,9 +77,37 @@ export function ToyDetails() {
 		setMsg((msg) => ({ ...msg, [field]: value }));
 	}
 
+	function handleReviewChange({ target }) {
+		const { name: field, value } = target;
+		setReview((review) => ({ ...review, [field]: value }));
+	}
+
+	async function onSaveReview(ev) {
+		ev.preventDefault();
+		const savedReview = {
+			txt: review.txt,
+			aboutToyId: toy._id,
+		};
+		try {
+			addReview(savedReview);
+			showSuccessMsg('Review saved!');
+		} catch (err) {
+			console.log('error saving the review :', err);
+		}
+	}
+
+	async function onRemoveReview(reviewId) {
+		try {
+			removeReview(reviewId);
+			showSuccessMsg('Review removed!');
+		} catch (err) {
+			console.log('problem with removing review', err);
+		}
+	}
+
 	const { txt } = msg;
 
-	console.log(msg);
+	//console.log(msg);
 
 	if (!toy) return <div>Loading...</div>;
 	return (
@@ -111,6 +150,19 @@ export function ToyDetails() {
 								))}
 						</ul>
 					</div>
+				</div>
+			)}
+			{user && (
+				<div className="reviews-container">
+					<h1>Reviews</h1>
+					<ToyReview
+						toy={toy}
+						review={review}
+						reviews={reviews}
+						handleChange={handleReviewChange}
+						onSaveReview={onSaveReview}
+						onRemoveReview={onRemoveReview}
+					></ToyReview>
 				</div>
 			)}
 			<Link to={`/toy/edit/${toy._id}`}>Edit</Link> &nbsp;

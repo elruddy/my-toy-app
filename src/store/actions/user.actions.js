@@ -1,7 +1,20 @@
-import { userService } from '../../services/user.service.js';
+import { userService } from '../../services/user';
 import { CLEAR_CART } from '../reducers/toy.reducer.js';
-import { SET_USER, SET_USER_SCORE } from '../reducers/user.reducer.js';
+import {
+	SET_USER,
+	SET_USER_SCORE,
+	SET_USERS,
+} from '../reducers/user.reducer.js';
 import { store } from '../store.js';
+
+export async function loadUsers() {
+	try {
+		const users = await userService.getUsers();
+		store.dispatch({ type: SET_USERS, users });
+	} catch (err) {
+		console.log('UserActions: err in loadUsers', err);
+	}
+}
 
 export function login(credentials) {
 	//console.log('credentials:', credentials);
